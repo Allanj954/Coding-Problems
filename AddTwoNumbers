@@ -1,0 +1,101 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode result = new ListNode();
+        boolean leftOver = false;
+        ListNode pointer = result;
+        int startCheck = 0;
+        
+        if (l1.val == 0 && l1.next == null) {
+            return l2;
+        }
+        
+        if (l2.val == 0 && l2.next == null) {
+            return l1;
+        }
+        
+        do {
+            ListNode temp = new ListNode(0);
+            if (leftOver) {
+                temp.val = 1;
+            }
+            
+            int sum = l1.val + l2.val;
+            temp.val = temp.val + sum;
+            if (temp.val >= 10) {
+                leftOver = true;
+                temp.val = temp.val % 10;
+            } else {
+                leftOver = false;
+            }
+            
+            
+            
+            if (startCheck == 0) {
+                result.val = temp.val;
+            } else {
+                result.next = temp;
+                result = result.next;
+            }
+            
+            
+            l1 = l1.next;
+            l2 = l2.next;
+            startCheck++;
+        
+        } while (l1 != null && l2 != null); 
+           
+        while (l1 != null) {
+            ListNode temp = new ListNode();
+            int sum = l1.val;
+            if (leftOver) {
+                sum += 1;
+            }
+            if (sum >= 10) {
+                temp.val = 0;
+                result.next = temp;
+                result = result.next;
+            } else {
+                temp.val = sum;
+                result.next = temp;
+                result = result.next;
+                leftOver = false;
+            }
+            
+            l1 = l1.next;
+        }
+        
+        while (l2 != null) {
+            ListNode temp = new ListNode();
+            int sum = l2.val;
+            if (leftOver) {
+                sum += 1;
+            }
+            if (sum >= 10) {
+                temp.val = 0;
+                result.next = temp;
+                result = result.next;
+            } else {
+                temp.val = sum;
+                result.next = temp;
+                result = result.next;
+                leftOver = false;
+            }
+            l2 = l2.next;
+        }
+        
+        if (leftOver) {
+            result.next = new ListNode(1);
+        }
+        return pointer;
+    }
+}
